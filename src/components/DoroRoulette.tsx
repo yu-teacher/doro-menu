@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MenuItem, Category } from '../types/menu';
-import { CATEGORIES } from '../constants/doroAssets';
+import { CATEGORIES, DORO_ROULETTE_STAGES, STRIKE_MENU } from '../constants/doroAssets';
 import { DoroReaction } from './DoroReaction';
 import { ResultCard } from './ResultCard';
 import { Play, RotateCcw } from 'lucide-react';
@@ -17,6 +17,7 @@ export const DoroRoulette: React.FC<DoroRouletteProps> = ({ menus }) => {
   const [isSpinning, setIsSpinning] = useState(false);
   const [pickedMenu, setPickedMenu] = useState<MenuItem | null>(null);
   const [rotationAngle, setRotationAngle] = useState(0);
+  const [spinCount, setSpinCount] = useState(0);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -114,10 +115,24 @@ export const DoroRoulette: React.FC<DoroRouletteProps> = ({ menus }) => {
   const deselectAllCategories = () => setSelectedCategories([]);
 
   const spinRoulette = () => {
-    if (isSpinning || displayMenus.length === 0) return;
+    if (isSpinning || spinCount >= 10 || displayMenus.length === 0) return;
 
+    const nextSpinCount = spinCount + 1;
+    setSpinCount(nextSpinCount);
     setIsSpinning(true);
     setPickedMenu(null);
+
+    if (nextSpinCount >= 10) {
+      // 10회차: 룰렛 파업 모드 돌입
+      const spins = 5 * 360;
+      setRotationAngle(prev => prev + spins);
+
+      setTimeout(() => {
+        setIsSpinning(false);
+        setPickedMenu(STRIKE_MENU);
+      }, 3500);
+      return;
+    }
 
     // 무작위로 당첨 인덱스 선정
     const targetIndex = Math.floor(Math.random() * displayMenus.length);
@@ -140,6 +155,11 @@ export const DoroRoulette: React.FC<DoroRouletteProps> = ({ menus }) => {
         origin: { y: 0.6 },
       });
     }, 3500);
+  };
+
+  const handleResetAnger = () => {
+    setSpinCount(0);
+    setPickedMenu(null);
   };
 
   return (
@@ -189,15 +209,24 @@ export const DoroRoulette: React.FC<DoroRouletteProps> = ({ menus }) => {
       {/* Animated Doro Reaction while spinning */}
       {isSpinning ? (
         <DoroReaction
-          emotion="plush_dance"
-          quote="돌려돌려 돌림판! 털인형 도로롱이 댄스 추며 응원 중이다 도로롱~!"
+          emotion={DORO_ROULETTE_STAGES[spinCount]?.emotion || 'plush_dance'}
+          quote={DORO_ROULETTE_STAGES[spinCount]?.spinningQuote || '돌려돌려 돌림판! 털인형 도로롱이 댄스 추며 응원 중이다 도로롱~!'}
           size="sm"
+          isShaking={DORO_ROULETTE_STAGES[spinCount]?.isShaking}
+        />
+      ) : spinCount >= 10 ? (
+        <DoroReaction
+          emotion="angry"
+          quote="안 해 도로롱! 룰렛 바늘 뽑아버릴 거다 도로롱!! 💢💥 그냥 아무거나 처먹으라 도로롱!!"
+          size="sm"
+          isShaking={true}
         />
       ) : pickedMenu ? (
         <DoroReaction
-          emotion="dance_happy"
+          emotion={spinCount >= 7 ? 'melt' : spinCount >= 4 ? 'thinking' : (pickedMenu.specialDoroEmotion || 'dance_happy')}
           quote={pickedMenu.doroQuote}
           size="sm"
+          isShaking={spinCount >= 7}
         />
       ) : (
         <DoroReaction
@@ -228,18 +257,28 @@ export const DoroRoulette: React.FC<DoroRouletteProps> = ({ menus }) => {
           {/* Spin Trigger Button */}
           <button
             onClick={spinRoulette}
-            disabled={isSpinning || displayMenus.length === 0}
-            className="mt-6 flex items-center justify-center gap-2 py-3 sm:py-3.5 px-6 sm:px-8 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-black text-sm sm:text-base rounded-2xl shadow-lg shadow-pink-200 active:scale-95 transition-all cursor-pointer disabled:opacity-50 whitespace-nowrap break-keep"
+            disabled={isSpinning || spinCount >= 10 || displayMenus.length === 0}
+            className={`mt-6 flex items-center justify-center gap-2 py-3 sm:py-3.5 px-6 sm:px-8 font-black text-sm sm:text-base rounded-2xl shadow-lg active:scale-95 transition-all cursor-pointer disabled:opacity-50 whitespace-nowrap break-keep ${
+              spinCount >= 10
+                ? 'bg-gradient-to-r from-red-600 to-rose-700 text-white shadow-red-200 cursor-not-allowed'
+                : spinCount >= 7
+                ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-orange-200 hover:from-orange-600 hover:to-red-600'
+                : spinCount >= 4
+                ? 'bg-gradient-to-r from-amber-500 to-pink-500 text-white shadow-amber-200 hover:from-amber-600 hover:to-pink-600'
+                : 'bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white shadow-pink-200'
+            }`}
           >
             {isSpinning ? (
               <>
                 <RotateCcw className="w-5 h-5 animate-spin shrink-0" />
                 <span>빙글빙글 도는 중...</span>
               </>
+            ) : spinCount >= 10 ? (
+              <span>도로롱 파업 중!! 싹싹 빌기 전엔 회전 불가 💥</span>
             ) : (
               <>
                 <Play className="w-5 h-5 fill-white shrink-0" />
-                <span>룰렛 돌리기!</span>
+                <span>{DORO_ROULETTE_STAGES[spinCount + 1]?.buttonLabel || '룰렛 돌리기!'}</span>
               </>
             )}
           </button>
@@ -252,7 +291,9 @@ export const DoroRoulette: React.FC<DoroRouletteProps> = ({ menus }) => {
           <ResultCard
             menu={pickedMenu}
             onReroll={spinRoulette}
-            rerollCount={0}
+            rerollCount={spinCount}
+            onResetAnger={handleResetAnger}
+            isRerolling={isSpinning}
           />
         </div>
       )}

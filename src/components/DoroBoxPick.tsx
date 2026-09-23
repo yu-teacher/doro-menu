@@ -19,6 +19,7 @@ interface DoroBoxPickProps {
 
 export const DoroBoxPick: React.FC<DoroBoxPickProps> = ({ menus }) => {
   const [isPicking, setIsPicking] = useState(false);
+  const [isRerolling, setIsRerolling] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState<MenuItem | null>(null);
   const [emotion, setEmotion] = useState<DoroEmotion>('idle');
   const [quote, setQuote] = useState<string>(DORO_IDLE_QUOTES[0]);
@@ -37,7 +38,7 @@ export const DoroBoxPick: React.FC<DoroBoxPickProps> = ({ menus }) => {
 
   // 도로롱 쿡 찌르기 (Poke)
   const handlePoke = () => {
-    if (isPicking) return;
+    if (isPicking || isRerolling) return;
     const randomReaction = DORO_POKE_REACTIONS[Math.floor(Math.random() * DORO_POKE_REACTIONS.length)];
     setEmotion(randomReaction.emotion);
     setQuote(randomReaction.quote);
@@ -79,11 +80,12 @@ export const DoroBoxPick: React.FC<DoroBoxPickProps> = ({ menus }) => {
   };
 
   const handleReroll = () => {
+    if (isRerolling) return;
     const nextCount = rerollCount + 1;
     setRerollCount(nextCount);
 
     if (nextCount >= 10) {
-      // 10단계 도달: 파업 선언! "그냥 아무거나 처먹으라 도로롱!"
+      // 10단계 도달: 즉시 파업 선언! "그냥 아무거나 처먹으라 도로롱!"
       setIsAngryShaking(true);
       setEmotion('angry');
       const stage10 = DORO_ANGER_STAGES[10];
@@ -93,19 +95,28 @@ export const DoroBoxPick: React.FC<DoroBoxPickProps> = ({ menus }) => {
       return;
     }
 
-    // 1-9단계 감정 및 찰진 분노 대사 부여
+    // 1-9단계: 고뇌(Thinking) 시퀀스 진입!
+    setIsRerolling(true);
     const stage = DORO_ANGER_STAGES[nextCount] || DORO_ANGER_STAGES[9];
     setIsAngryShaking(Boolean(stage.isShaking));
-    setEmotion(stage.emotion);
-    const randomRejectQuote = stage.quotes[Math.floor(Math.random() * stage.quotes.length)];
-    setQuote(randomRejectQuote);
+    setEmotion(stage.thinkingEmotion);
+    const randomThinkingQuote =
+      stage.thinkingQuotes[Math.floor(Math.random() * stage.thinkingQuotes.length)];
+    setQuote(randomThinkingQuote);
 
-    // 약간의 딜레이 후 새로운 메뉴로 교체 (상단 도로롱은 분노 상태 유지!)
+    // 1.2초간 진지한 고뇌 / 분석 / 투덜거림 연출 후 새 메뉴 점지!
     setTimeout(() => {
       const randomIndex = Math.floor(Math.random() * activeMenus.length);
       const picked = activeMenus[randomIndex];
       setSelectedMenu(picked);
-    }, 700);
+      setIsRerolling(false);
+
+      // 새 메뉴 점지 후 도로롱 표정 및 대사
+      setEmotion(stage.emotion);
+      const randomRevealQuote = stage.quotes[Math.floor(Math.random() * stage.quotes.length)];
+      setQuote(randomRevealQuote);
+      setIsAngryShaking(Boolean(stage.isShaking));
+    }, 1200);
   };
 
   const handleResetAnger = () => {
@@ -147,7 +158,7 @@ export const DoroBoxPick: React.FC<DoroBoxPickProps> = ({ menus }) => {
         size={selectedMenu ? 'md' : 'lg'}
         isShaking={isAngryShaking}
         onPoke={handlePoke}
-        showPokeHint={!selectedMenu && !isPicking}
+        showPokeHint={!selectedMenu && !isPicking && !isRerolling}
       />
 
       {/* Result Card or Initial Trigger Button */}
@@ -158,6 +169,7 @@ export const DoroBoxPick: React.FC<DoroBoxPickProps> = ({ menus }) => {
             onReroll={handleReroll}
             rerollCount={rerollCount}
             onResetAnger={handleResetAnger}
+            isRerolling={isRerolling}
           />
         </div>
       ) : (

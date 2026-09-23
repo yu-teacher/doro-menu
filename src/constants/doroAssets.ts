@@ -98,119 +98,191 @@ export const DORO_THINKING_QUOTES = [
 export interface DoroAngerStage {
   level: number;
   emotion: DoroEmotion;
+  thinkingEmotion: DoroEmotion;
   isShaking?: boolean;
   stageName: string;
   stageEmoji: string;
+  thinkingButtonText: string;
+  thinkingQuotes: string[];
   quotes: string[];
 }
 
 export const DORO_ANGER_STAGES: Record<number, DoroAngerStage> = {
   1: {
     level: 1,
-    emotion: 'tumbleweed',
-    stageName: '시무룩한 도로롱',
-    stageEmoji: '💨',
+    emotion: 'thinking',
+    thinkingEmotion: 'thinking',
+    stageName: '진지한 고뇌 도로롱',
+    stageEmoji: '🤔',
+    thinkingButtonText: '진지하게 다시 고뇌 중... 🤔',
+    thinkingQuotes: [
+      "흠... 이건 취향이 아니었던 건가 도로롱? 도로롱의 3000년 미식 데이터를 재가동한다 도로롱... 🤔",
+      "수학 공식과 위장 알고리즘을 다시 계산해본다 도로롱... 고뇌 중이다 도로롱...",
+      "손님의 까다로운 입맛을 만족시키기 위해 뇌세포를 풀가동한다 도로롱!",
+    ],
     quotes: [
-      "으아악! 왜 안 먹겠다는 거냐 도로롱! 맛있는데 도로롱!",
-      "치... 도로롱의 정성 어린 픽을 거부하다니. 다시 한번 뽑아보겠다 도로롱.",
-      "입맛이 꽤 까다롭다 도로롱... 이번엔 마음에 들 거다 도로롱!",
+      "좋다 도로롱! 도로롱이 심사숙고 끝에 다시 엄선했다 도로롱! 이건 어떠냐 도로롱?! ✨",
+      "고뇌의 결실이다 도로롱! 당신의 오늘 운명에 딱 맞는 메뉴다 도로롱!",
+      "치... 이번 메뉴는 거절하지 못할 거다 도로롱!",
     ],
   },
   2: {
     level: 2,
-    emotion: 'thinking',
-    stageName: '의아한 도로롱',
-    stageEmoji: '🤔',
+    emotion: 'point',
+    thinkingEmotion: 'fire_coding',
+    stageName: '빅데이터 심화 분석',
+    stageEmoji: '💻',
+    thinkingButtonText: '빅데이터 폭풍 분석 중... 💻',
+    thinkingQuotes: [
+      "까다로운 손님이군 도로롱... 당신의 위장 빅데이터를 샅샅이 뒤져서 완벽한 메뉴를 찾아내겠다 도로롱! (안경 쓱)",
+      "미식 알고리즘 2차 튜닝 중이다 도로롱! 타닥타닥타닥... 💻",
+      "이번엔 진짜 만족시켜 주겠다 도로롱! 도로롱의 명예를 걸고 서치 중이다 도로롱!",
+    ],
     quotes: [
-      "이것도 싫다고 도로롱? 당신의 위장 데이터베이스를 재분석해야겠다 도로롱.",
-      "도대체 어제 뭘 먹었길래 다 퇴짜냐 도로롱?!",
-      "음... 슬슬 까다로운 인간의 냄새가 난다 도로롱... 다시 골라본다 도로롱!",
+      "찾았다 도로롱! 도로롱의 명예를 건 회심의 역작이다 도로롱! 🌟",
+      "이것도 마음에 안 들면 당신 미각에 문제가 있는 거다 도로롱!",
+      "자! 이번엔 군말 말고 이거 먹어라 도로롱!",
     ],
   },
   3: {
     level: 3,
-    emotion: 'scream',
-    stageName: '경악한 도로롱',
-    stageEmoji: '😱',
+    emotion: 'tumbleweed',
+    thinkingEmotion: 'tumbleweed',
+    stageName: '의아함 & 살짝 당황',
+    stageEmoji: '💨',
+    thinkingButtonText: '어리둥절 뇌세포 굴리는 중... 💨',
+    thinkingQuotes: [
+      "어라? 이것도 아니라고 도로롱? 내 미각 엔진에 미세한 오차가 발생한 건가 도로롱... 💨",
+      "사막을 구르는 쿠션처럼 도로롱 머릿속이 복잡해진다 도로롱... 으아아...",
+      "3연속 거절이라니... 도로롱 자존심에 작은 균열이 가기 시작했다 도로롱...",
+    ],
     quotes: [
-      "끼야아악!! 이것도 싫다고?! 내 미각 엔진에 오류가 난 거냐 도로롱!!",
-      "도로롱 심장에 스크래치 났다 도로롱! 3연속 거절이라니 도로롱!",
-      "세상에 맛있는 게 얼마나 많은데 왜 다 싫다는 거냐 도로롱!!",
+      "휴... 다시 골라왔다 도로롱! 설마 이것까지 퇴짜 놓진 않겠지 도로롱?",
+      "도로롱 픽을 3번이나 차다니... 맛있는 거 가져왔으니 어서 봐라 도로롱!",
+      "이번엔 진짜 타협해라 도로롱! 맛있는데 왜 그러냐 도로롱!",
     ],
   },
   4: {
     level: 4,
     emotion: 'melt',
-    stageName: '멘붕 온 도로롱',
+    thinkingEmotion: 'melt',
+    stageName: '자존심 스크래치 (멘붕)',
     stageEmoji: '🫠',
+    thinkingButtonText: '멘탈 잡고 억지로 고민 중... 🫠',
+    thinkingQuotes: [
+      "흐물흐물... 도로롱 멘탈이 바닥에 녹아내린다 도로롱... 멘탈 부여잡는 중...",
+      "배고파 죽겠는데 메뉴 고르다 하루 다 가겠다 도로롱... 흐물흐물...",
+      "기 빨린다 도로롱... 하지만 도로롱의 사명감으로 억지로 뇌를 쥐어짠다 도로롱...",
+    ],
     quotes: [
-      "흐물흐물... 도로롱 멘탈이 바닥에 녹아내린다 도로롱...",
-      "배고파 죽겠는데 메뉴 고르다 오늘 하루 다 가겠다 도로롱...",
-      "나 기 빨린다 도로롱... 그냥 편의점 가서 컵라면이나 먹어라 도로롱...",
+      "바닥에 녹아내린 멘탈을 주워 담아 다시 골라왔다 도로롱... 🫠",
+      "이거 먹고 제발 도로롱 좀 그만 괴롭혀라 도로롱...",
+      "녹아내리는 도로롱을 살릴 수 있는 유일한 메뉴다 도로롱...",
     ],
   },
   5: {
     level: 5,
     emotion: 'point',
-    stageName: '삿대질하는 도로롱',
+    thinkingEmotion: 'point',
+    stageName: '의심 가득 삿대질',
     stageEmoji: '👉',
+    thinkingButtonText: '의심 가득 눈초리로 고르는 중... 👉',
+    thinkingQuotes: [
+      "야! 솔직히 말해라 도로롱! 먹고 싶은 게 있긴 한 거냐 도로롱?! 👉",
+      "너 지금 도로롱 놀리려고 일부러 거절 누르는 거 다 알고 있다 도로롱!",
+      "5번째다 도로롱! 손가락 부러지기 전에 얌전히 받아 적어라 도로롱!",
+    ],
     quotes: [
-      "야! 너 똑바로 말해라 도로롱! 먹고 싶은 게 있긴 한 거냐 도로롱?!",
+      "자! 일루와 봐라 도로롱! 이래도 안 먹을 거냐 도로롱?! 👉",
       "당신의 선택 장애는 기네스북 등재감이다 도로롱! 팍씨!",
-      "도로롱 깡통에 500원짜리 동전이나 더 넣고 다시 말하라 도로롱!",
+      "이번엔 핑계 댈 생각도 마라 도로롱! 딱 걸렸다 도로롱!",
     ],
   },
   6: {
     level: 6,
     emotion: 'fat',
-    stageName: '폭식하는 뚱도로롱',
-    stageEmoji: '🐷',
-    quotes: [
-      "스트레스 받아서 도로롱이 대신 폭식해서 뚱도로롱 됐다 도로롱!!",
+    thinkingEmotion: 'fat',
+    stageName: '스트레스 폭식 뚱도로롱',
+    stageEmoji: '🍔',
+    thinkingButtonText: '폭식하며 투덜투덜 고르는 중... 🍔',
+    thinkingQuotes: [
+      "스트레스 받아서 도로롱이 대신 폭식해서 뚱도로롱 됐다 도로롱!! 🍔",
+      "우걱우걱... 내가 먹고 싶은 걸로 대충 때려 맞추겠다 도로롱! 쩝쩝...",
       "답답해서 도로롱 숨넘어간다 도로롱! 뱃살 늘어나는 소리 안 들리냐 도로롱?!",
-      "내가 눈앞에 있는 거 다 처먹어버리기 전에 이번엔 그냥 골라라 도로롱!!",
+    ],
+    quotes: [
+      "뚱도로롱이 배 터지게 먹고 싶은 걸로 골라왔다 도로롱! 🐷",
+      "내가 눈앞에 있는 거 다 처먹기 전에 얌전히 이거 먹어라 도로롱!",
+      "칼로리 폭탄으로 혼쭐을 내줄 거다 도로롱!",
     ],
   },
   7: {
     level: 7,
     emotion: 'butt',
-    stageName: '엉덩이 시위 도로롱',
+    thinkingEmotion: 'butt',
+    stageName: '엉덩이 시위 (보이콧)',
     stageEmoji: '🍑',
-    quotes: [
-      "몰라 도로롱! 도로롱 엉덩이나 보고 반성하라 도로롱! 뿡뿡!",
+    thinkingButtonText: '엉덩이 흔들며 대충 찾는 중... 🍑',
+    thinkingQuotes: [
+      "몰라 도로롱! 도로롱 삐졌다 도로롱! 엉덩이나 보고 반성하라 도로롱! 뿡뿡!",
       "도로롱도 자존심이 있다 도로롱! 7번이나 차이다니 억울하다 도로롱!",
+      "이제 도로롱 발가락으로 대충 골라줄 거다 도로롱! 흥칫뿡!",
+    ],
+    quotes: [
+      "엉덩이로 고른 특제 메뉴다 도로롱! 🍑 뿡!",
       "퉤퉤! 도로롱의 황금 같은 추천을 쓰레기통에 처박다니 도로롱!",
+      "군소리 말고 이거 먹고 반성문 써라 도로롱!",
     ],
   },
   8: {
     level: 8,
     emotion: 'fire_coding',
-    stageName: '두뇌 과부하 도로롱',
+    thinkingEmotion: 'fire_coding',
+    isShaking: true,
+    stageName: '두뇌 과부하 (키보드 샷건)',
     stageEmoji: '🔥',
-    quotes: [
-      "으아아아악!! 도로롱 두뇌 과부하 걸렸다 도로롱!! 🔥🔥",
-      "내 분노의 폭풍 키보드 연타를 봐라 도로롱! 쾅쾅쾅쾅쾅!!",
+    thinkingButtonText: '두뇌 과부하 키보드 난타 중!! 🔥',
+    thinkingQuotes: [
+      "으아아아악!! 도로롱 두뇌 과부하 걸렸다 도로롱!! 🔥🔥 (키보드 샷건)",
+      "내 분노의 폭풍 키보드 연타를 봐라 도로롱! 쾅쾅쾅쾅쾅!! 🔥",
       "인간의 선택 장애를 강제 포맷하는 바이러스를 심어버리겠다 도로롱!!",
+    ],
+    quotes: [
+      "뇌에서 연기 뿜으면서 뽑아왔다 도로롱!! 🔥🔥",
+      "서버 터지기 직전이다 도로롱! 그냥 먹어라 도로롱!!",
+      "키보드 샷건 치다 나온 기적의 메뉴다 도로롱!!",
     ],
   },
   9: {
     level: 9,
     emotion: 'angry',
+    thinkingEmotion: 'angry',
     isShaking: true,
-    stageName: '폭발 직전 도로롱',
-    stageEmoji: '💢',
+    stageName: '폭발 직전 (마지막 경고)',
+    stageEmoji: '😡',
+    thinkingButtonText: '부들부들 마지막 인내심 가동... 😡',
+    thinkingQuotes: [
+      "도로롱 인내심 한계 게이지 99%다 도로롱... 부들부들... 😡",
+      "마지막 경고다 도로롱... 한 번만 더 거절하면 진짜 국물도 없다 도로롱...",
+      "도로롱 눈에서 레이저 나오는 거 안 보이냐 도로롱... 부들부들...",
+    ],
     quotes: [
-      "도로롱 인내심 한계 게이지 99%다 도로롱... 💢💢 부들부들...",
-      "한 번만 더 거절하면 진짜 깡통 엎어버리고 파업한다 도로롱... 💥",
-      "마지막 경고다 도로롱... 다음엔 도로롱도 절대 안 참는다 도로롱... 😡",
+      "마지막 기회다 도로롱... 이거 안 먹으면 다음은 없다 도로롱... 😡",
+      "도로롱 참을 인(忍) 세 번 다 썼다 도로롱... 먹어라 도로롱...",
+      "경고했다 도로롱... 다음 거절 누르면 진짜 끝장이다 도로롱...",
     ],
   },
   10: {
     level: 10,
     emotion: 'angry',
+    thinkingEmotion: 'angry',
     isShaking: true,
     stageName: '파업 돌입 도로롱 (배 째라)',
     stageEmoji: '💥',
+    thinkingButtonText: '도로롱 파업 선언!! 💥',
+    thinkingQuotes: [
+      "안 해 도로롱! 도로롱 파업이다 도로롱!! 💢 그냥 아무거나 처먹으라 도로롱!!",
+    ],
     quotes: [
       "안 해 도로롱! 도로롱 파업이다 도로롱!! 💢💥 골라줘도 난리더니 10번이나 차버려?! 그냥 아무거나 처먹으라 도로롱!! 😡",
       "도로롱은 이제 아무것도 안 정해줄 거다 도로롱! 냉장고 열어서 김치에 찬물 말아 쳐먹으라 도로롱!! 🍚",
@@ -228,6 +300,81 @@ export const STRIKE_MENU: MenuItem = {
   tags: ['도로롱파업', '강제배정', '처먹으라도로롱', '선택불가'],
   enabled: true,
   specialDoroEmotion: 'angry',
+};
+
+export interface DoroRouletteStage {
+  level: number;
+  emotion: DoroEmotion;
+  isShaking?: boolean;
+  buttonLabel: string;
+  spinningQuote: string;
+}
+
+export const DORO_ROULETTE_STAGES: Record<number, DoroRouletteStage> = {
+  1: {
+    level: 1,
+    emotion: 'plush_dance',
+    buttonLabel: '룰렛 돌리기!',
+    spinningQuote: '돌려돌려 돌림판! 털인형 도로롱이 댄스 추며 응원 중이다 도로롱~ 🎶',
+  },
+  2: {
+    level: 2,
+    emotion: 'plush_dance',
+    buttonLabel: '룰렛 다시 돌리기!',
+    spinningQuote: '또 돌린다 도로롱! 이번엔 어떤 맛있는 메뉴가 걸릴까 도로롱?! ✨',
+  },
+  3: {
+    level: 3,
+    emotion: 'dance_happy',
+    buttonLabel: '룰렛 또 돌리기!',
+    spinningQuote: '빙글빙글~ 아직까진 신나게 돌릴 수 있다 도로롱! 💃',
+  },
+  4: {
+    level: 4,
+    emotion: 'tumbleweed',
+    buttonLabel: '또 돌리기... (어질어질 💫)',
+    spinningQuote: '으... 도로롱 눈앞이 핑핑 돈다 도로롱... 그만 좀 돌려라 도로롱... 💫',
+  },
+  5: {
+    level: 5,
+    emotion: 'thinking',
+    buttonLabel: '또 돌리기?! (빙글빙글 🌀)',
+    spinningQuote: '돌리고 또 돌리고... 도로롱 뇌세포까지 같이 회전하는 중이다 도로롱... 🌀',
+  },
+  6: {
+    level: 6,
+    emotion: 'melt',
+    buttonLabel: '또 돌려? (멀미 주의 🤢)',
+    spinningQuote: '흐물흐물... 룰렛 바람 때문에 도로롱이 날아갈 것 같다 도로롱... 🫠',
+  },
+  7: {
+    level: 7,
+    emotion: 'melt',
+    isShaking: true,
+    buttonLabel: '또 돌리기 (토할 것 같음 🤮)',
+    spinningQuote: '우웩! 도로롱 토할 것 같다 도로롱!! 살려달라 도로롱!! 🤢🤮',
+  },
+  8: {
+    level: 8,
+    emotion: 'fire_coding',
+    isShaking: true,
+    buttonLabel: '또 돌려?! (도로롱 과부하 🔥)',
+    spinningQuote: '으아아악!! 룰렛 모터에서 불꽃 튄다 도로롱!! 🔥🔥 그만 돌려라 도로롱!!',
+  },
+  9: {
+    level: 9,
+    emotion: 'angry',
+    isShaking: true,
+    buttonLabel: '마지막 회전... (폭발 직전 😡)',
+    spinningQuote: '도로롱 인내심 한계다 도로롱... 다음 회전 누르면 룰렛 부숴버릴 거다 도로롱... 😡💥',
+  },
+  10: {
+    level: 10,
+    emotion: 'angry',
+    isShaking: true,
+    buttonLabel: '도로롱 룰렛 파업!! (회전 불가 💥)',
+    spinningQuote: '안 해 도로롱! 룰렛 바늘 뽑아버릴 거다 도로롱!! 💢 그냥 아무거나 처먹으라 도로롱!! 💥',
+  },
 };
 
 export const DORO_REJECT_QUOTES = [

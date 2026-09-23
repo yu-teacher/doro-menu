@@ -22,9 +22,16 @@ interface ResultCardProps {
   onReroll: () => void;
   rerollCount: number;
   onResetAnger?: () => void;
+  isRerolling?: boolean;
 }
 
-export const ResultCard: React.FC<ResultCardProps> = ({ menu, onReroll, rerollCount, onResetAnger }) => {
+export const ResultCard: React.FC<ResultCardProps> = ({
+  menu,
+  onReroll,
+  rerollCount,
+  onResetAnger,
+  isRerolling = false,
+}) => {
   const [copied, setCopied] = useState(false);
   const [isDecided, setIsDecided] = useState(false);
   const [isEditingDistrict, setIsEditingDistrict] = useState(false);
@@ -350,14 +357,23 @@ export const ResultCard: React.FC<ResultCardProps> = ({ menu, onReroll, rerollCo
           ) : (
             <button
               onClick={onReroll}
-              className={`flex items-center justify-center gap-1 sm:gap-1.5 py-3 sm:py-3.5 px-3 sm:px-4 bg-white hover:bg-rose-50 border rounded-2xl font-bold text-xs sm:text-sm shadow-xs active:scale-95 transition-all cursor-pointer whitespace-nowrap break-keep ${
-                rerollCount >= 7
-                  ? 'border-red-300 text-red-600 hover:bg-red-50'
-                  : 'border-rose-200 text-rose-600'
+              disabled={isRerolling}
+              className={`flex items-center justify-center gap-1 sm:gap-1.5 py-3 sm:py-3.5 px-3 sm:px-4 border rounded-2xl font-bold text-xs sm:text-sm shadow-xs transition-all cursor-pointer whitespace-nowrap break-keep ${
+                isRerolling
+                  ? 'bg-amber-50 border-amber-300 text-amber-800 animate-pulse cursor-wait'
+                  : rerollCount >= 7
+                  ? 'bg-white hover:bg-red-50 border-red-300 text-red-600 active:scale-95'
+                  : 'bg-white hover:bg-rose-50 border-rose-200 text-rose-600 active:scale-95'
               }`}
             >
-              <RefreshCw className={`w-4 h-4 shrink-0 ${rerollCount > 0 ? 'animate-spin' : ''}`} />
-              <span>다시 뽑기 (Lv.{rerollCount})</span>
+              <RefreshCw className={`w-4 h-4 shrink-0 ${isRerolling || rerollCount > 0 ? 'animate-spin' : ''}`} />
+              <span>
+                {isRerolling
+                  ? (DORO_ANGER_STAGES[rerollCount]?.thinkingButtonText || '도로롱 고뇌 중... 🤔')
+                  : rerollCount > 0
+                  ? `다시 뽑기 (Lv.${rerollCount})`
+                  : '다시 뽑기'}
+              </span>
             </button>
           )}
         </div>

@@ -194,55 +194,61 @@ export const DoroMenuBook: React.FC<DoroMenuBookProps> = ({
         </form>
       )}
 
-      {/* Filter and Search Bar */}
-      <div className="flex flex-col sm:flex-row gap-2 mb-4">
-        {/* Search */}
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-          <input
-            type="text"
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            placeholder="메뉴명, 태그, 설명 검색..."
-            className="w-full text-xs pl-9 pr-4 py-2.5 rounded-xl border border-slate-200 bg-white focus:outline-none focus:border-pink-500 shadow-2xs"
-          />
-          {search && (
-            <button
-              onClick={() => setSearch('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
-            >
-              <X className="w-3.5 h-3.5" />
-            </button>
-          )}
-        </div>
-
-        {/* Category Filter Dropdown / Horizontal Scroll */}
-        <div className="flex items-center gap-1 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
+      {/* Search Input Bar (Full Width) */}
+      <div className="relative mb-3">
+        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+        <input
+          type="text"
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          placeholder="메뉴명, 태그, 설명 검색... (예: 찌개, 고기, 치킨)"
+          className="w-full text-xs pl-10 pr-9 py-2.5 rounded-xl border border-slate-200 bg-white focus:outline-none focus:border-pink-500 shadow-2xs transition-all"
+        />
+        {search && (
           <button
-            onClick={() => setSelectedCategory('all')}
-            className={`px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-colors cursor-pointer ${
-              selectedCategory === 'all'
-                ? 'bg-slate-800 text-white'
-                : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300'
-            }`}
+            onClick={() => setSearch('')}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1 cursor-pointer"
           >
-            전체
+            <X className="w-3.5 h-3.5" />
           </button>
-          {CATEGORIES.map(cat => (
+        )}
+      </div>
+
+      {/* Category Filter Chips (Wrap cleanly so nothing is ever cut off!) */}
+      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-4">
+        <button
+          onClick={() => setSelectedCategory('all')}
+          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+            selectedCategory === 'all'
+              ? 'bg-slate-900 text-white shadow-2xs scale-105'
+              : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300'
+          }`}
+        >
+          전체 ({menus.length})
+        </button>
+        {CATEGORIES.map(cat => {
+          const count = menus.filter(m => m.category === cat.id).length;
+          const isSelected = selectedCategory === cat.id;
+          return (
             <button
               key={cat.id}
               onClick={() => setSelectedCategory(cat.id)}
-              className={`px-2.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-colors cursor-pointer flex items-center gap-1 ${
-                selectedCategory === cat.id
-                  ? 'bg-pink-500 text-white'
-                  : 'bg-white text-slate-600 border border-slate-200 hover:border-pink-300'
+              className={`px-2.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                isSelected
+                  ? 'bg-pink-500 text-white shadow-2xs scale-105 ring-2 ring-pink-300/50'
+                  : 'bg-white text-slate-600 border border-slate-200 hover:border-pink-300 hover:text-pink-600'
               }`}
             >
               <span>{cat.emoji}</span>
               <span>{cat.name}</span>
+              <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium ${
+                isSelected ? 'bg-pink-700/60 text-white' : 'bg-slate-100 text-slate-500'
+              }`}>
+                {count}
+              </span>
             </button>
-          ))}
-        </div>
+          );
+        })}
       </div>
 
       {/* Menu Cards Grid */}

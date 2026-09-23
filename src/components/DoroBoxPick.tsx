@@ -12,6 +12,7 @@ import {
   getEmotionForCategory,
 } from '../constants/doroAssets';
 import { Sparkles, Coins, RefreshCw } from 'lucide-react';
+import { trackEvent } from '../utils/analytics';
 
 interface DoroBoxPickProps {
   menus: MenuItem[];
@@ -66,6 +67,13 @@ export const DoroBoxPick: React.FC<DoroBoxPickProps> = ({ menus }) => {
       setSelectedMenu(picked);
       setIsPicking(false);
 
+      trackEvent('menu_pick', {
+        menu_name: picked.name,
+        category: picked.category,
+        reroll_count: 0,
+        mode: 'box',
+      });
+
       // 메뉴 특성에 따른 감정 결정
       let finalEmotion: DoroEmotion = 'point';
       if (picked.specialDoroEmotion) {
@@ -92,6 +100,10 @@ export const DoroBoxPick: React.FC<DoroBoxPickProps> = ({ menus }) => {
       const randomRejectQuote = stage10.quotes[Math.floor(Math.random() * stage10.quotes.length)];
       setQuote(randomRejectQuote);
       setSelectedMenu(STRIKE_MENU);
+      trackEvent('doro_anger_strike', {
+        mode: 'box',
+        reroll_count: 10,
+      });
       return;
     }
 
@@ -110,6 +122,13 @@ export const DoroBoxPick: React.FC<DoroBoxPickProps> = ({ menus }) => {
       const picked = activeMenus[randomIndex];
       setSelectedMenu(picked);
       setIsRerolling(false);
+
+      trackEvent('menu_pick', {
+        menu_name: picked.name,
+        category: picked.category,
+        reroll_count: nextCount,
+        mode: 'box',
+      });
 
       // 새 메뉴 점지 후 도로롱 표정 및 대사
       setEmotion(stage.emotion);

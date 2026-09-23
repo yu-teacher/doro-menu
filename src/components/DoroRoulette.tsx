@@ -5,6 +5,7 @@ import { DoroReaction } from './DoroReaction';
 import { ResultCard } from './ResultCard';
 import { Play, RotateCcw } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { trackEvent } from '../utils/analytics';
 
 interface DoroRouletteProps {
   menus: MenuItem[];
@@ -122,6 +123,11 @@ export const DoroRoulette: React.FC<DoroRouletteProps> = ({ menus }) => {
     setIsSpinning(true);
     setPickedMenu(null);
 
+    trackEvent('roulette_spin', {
+      spin_count: nextSpinCount,
+      candidate_count: displayMenus.length,
+    });
+
     if (nextSpinCount >= 10) {
       // 10회차: 룰렛 파업 모드 돌입
       const spins = 5 * 360;
@@ -130,6 +136,10 @@ export const DoroRoulette: React.FC<DoroRouletteProps> = ({ menus }) => {
       setTimeout(() => {
         setIsSpinning(false);
         setPickedMenu(STRIKE_MENU);
+        trackEvent('doro_anger_strike', {
+          mode: 'roulette',
+          reroll_count: 10,
+        });
       }, 3500);
       return;
     }
@@ -148,6 +158,13 @@ export const DoroRoulette: React.FC<DoroRouletteProps> = ({ menus }) => {
       setIsSpinning(false);
       const chosen = displayMenus[targetIndex];
       setPickedMenu(chosen);
+
+      trackEvent('menu_pick', {
+        menu_name: chosen.name,
+        category: chosen.category,
+        reroll_count: nextSpinCount,
+        mode: 'roulette',
+      });
 
       confetti({
         particleCount: 80,

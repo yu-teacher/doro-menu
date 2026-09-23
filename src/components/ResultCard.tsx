@@ -3,6 +3,7 @@ import { MenuItem } from '../types/menu';
 import { CATEGORIES, getMenuAvatar, DORO_ANGER_STAGES } from '../constants/doroAssets';
 import { useUserLocation } from '../hooks/useUserLocation';
 import { getSearchKeyword } from '../utils/searchKeyword';
+import { trackEvent } from '../utils/analytics';
 import {
   Share2,
   RefreshCw,
@@ -44,6 +45,12 @@ export const ResultCard: React.FC<ResultCardProps> = ({
 
   const handleConfirm = () => {
     setIsDecided(true);
+    trackEvent('menu_confirm', {
+      menu_name: menu.name,
+      category: menu.category,
+      reroll_count: rerollCount,
+      mode,
+    });
     confetti({
       particleCount: 100,
       spread: 70,
@@ -53,6 +60,10 @@ export const ResultCard: React.FC<ResultCardProps> = ({
   };
 
   const handleShare = async () => {
+    trackEvent('menu_share', {
+      menu_name: menu.name,
+      category: menu.category,
+    });
     const locText = location.district ? ` (📍 ${location.district})` : '';
     const text = `🍽️ 도로롱이 점지해준 오늘의 식사 메뉴!\n👉 [${menu.name}]${locText}\n"${menu.doroQuote}"\n다들 오늘 이거 먹으라 도로롱! 🌸`;
 
@@ -264,6 +275,14 @@ export const ResultCard: React.FC<ResultCardProps> = ({
               href={naverMapUrl}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => {
+                trackEvent('map_search', {
+                  map_provider: 'naver',
+                  menu_name: menu.name,
+                  search_keyword: targetFood,
+                  district: location.district,
+                });
+              }}
               className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold bg-[#03C75A] text-white hover:opacity-90 shadow-2xs transition-all whitespace-nowrap"
             >
               <span>네이버 지도</span>
@@ -273,6 +292,14 @@ export const ResultCard: React.FC<ResultCardProps> = ({
               href={kakaoMapUrl}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => {
+                trackEvent('map_search', {
+                  map_provider: 'kakao',
+                  menu_name: menu.name,
+                  search_keyword: targetFood,
+                  district: location.district,
+                });
+              }}
               className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold bg-[#FEE500] text-slate-900 hover:opacity-90 shadow-2xs transition-all whitespace-nowrap"
             >
               <span>카카오맵</span>
@@ -360,7 +387,10 @@ export const ResultCard: React.FC<ResultCardProps> = ({
 
           {rerollCount >= 10 ? (
             <button
-              onClick={onResetAnger}
+              onClick={() => {
+                trackEvent('doro_anger_forgive');
+                onResetAnger?.();
+              }}
               className="flex items-center justify-center gap-1.5 py-3 sm:py-3.5 px-2 sm:px-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white rounded-2xl font-bold text-xs sm:text-sm shadow-md shadow-orange-200 active:scale-95 transition-all cursor-pointer whitespace-nowrap break-keep"
             >
               <span>도로롱 싹싹 빌기 (사죄) 🙇</span>

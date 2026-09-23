@@ -7,6 +7,8 @@ import { DoroRoulette } from './components/DoroRoulette';
 import { DoroMenuBook } from './components/DoroMenuBook';
 import { DoroGalleryModal } from './components/DoroGalleryModal';
 
+import { trackEvent } from './utils/analytics';
+
 export function App() {
   const [menus, setMenus] = useState<MenuItem[]>([]);
   const [activeTab, setActiveTab] = useState<ActiveTab>('box');
@@ -24,6 +26,7 @@ export function App() {
 
   const handleAddMenu = (menuData: Omit<MenuItem, 'id' | 'isCustom' | 'enabled'>) => {
     const created = menuStorage.addCustomMenu(menuData);
+    trackEvent('custom_menu_add', { menu_name: created.name, category: created.category });
     setMenus(prev => [created, ...prev]);
   };
 
@@ -45,9 +48,15 @@ export function App() {
         {/* Sticky Header with Navigation Tabs & Gallery Trigger */}
         <Header
           activeTab={activeTab}
-          onTabChange={setActiveTab}
+          onTabChange={(tab) => {
+            trackEvent('tab_change', { tab });
+            setActiveTab(tab);
+          }}
           activeMenuCount={activeCount}
-          onOpenGallery={() => setIsGalleryOpen(true)}
+          onOpenGallery={() => {
+            trackEvent('gallery_open');
+            setIsGalleryOpen(true);
+          }}
         />
 
         {/* Main Content Area */}

@@ -11,7 +11,7 @@ import {
   STRIKE_MENU,
   getEmotionForCategory,
 } from '../constants/doroAssets';
-import { Sparkles, Coins } from 'lucide-react';
+import { Sparkles, Coins, RefreshCw } from 'lucide-react';
 
 interface DoroBoxPickProps {
   menus: MenuItem[];
@@ -155,33 +155,48 @@ export const DoroBoxPick: React.FC<DoroBoxPickProps> = ({ menus }) => {
       <DoroReaction
         emotion={emotion}
         quote={quote}
-        size={selectedMenu ? 'md' : 'lg'}
+        size={selectedMenu && !isPicking && !isRerolling ? 'md' : 'lg'}
         isShaking={isAngryShaking}
         onPoke={handlePoke}
         showPokeHint={!selectedMenu && !isPicking && !isRerolling}
       />
 
-      {/* Result Card or Initial Trigger Button */}
-      {selectedMenu && !isPicking ? (
-        <div className="w-full mt-2 animate-in fade-in zoom-in-95 duration-300">
+      {/* 3-State Layout: 1) Deliberating (Card GONE, Banner shown), 2) Selected (Card shown), 3) Initial (Big button) */}
+      {isPicking || isRerolling ? (
+        <div className="mt-6 flex flex-col items-center gap-3 w-full animate-in fade-in zoom-in-95 duration-200">
+          <div className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-500 via-rose-500 to-amber-500 text-white font-black text-sm sm:text-base rounded-2xl shadow-xl shadow-pink-200/80 animate-pulse">
+            <RefreshCw className="w-5 h-5 animate-spin shrink-0" />
+            <span>
+              {isRerolling
+                ? (DORO_ANGER_STAGES[rerollCount]?.thinkingButtonText || '도로롱이 진지하게 고뇌 중... 🤔')
+                : '도로롱이 신중하게 고뇌 중... 🤔'}
+            </span>
+          </div>
+          <p className="text-xs sm:text-sm text-slate-500 font-bold break-keep text-center animate-pulse">
+            {isRerolling
+              ? '이전 메뉴는 깡통에 털어 넣고, 새 메뉴를 고심하고 있다 도로롱!'
+              : '도로롱의 3000년 미식 알고리즘이 풀가동 중이다 도로롱! ✨'}
+          </p>
+        </div>
+      ) : selectedMenu ? (
+        <div className="w-full mt-2 animate-in fade-in zoom-in-95 duration-500">
           <ResultCard
             menu={selectedMenu}
             onReroll={handleReroll}
             rerollCount={rerollCount}
             onResetAnger={handleResetAnger}
-            isRerolling={isRerolling}
+            mode="box"
           />
         </div>
       ) : (
         <div className="mt-4 flex flex-col items-center gap-3 w-full px-2">
           <button
             onClick={pickRandomMenu}
-            disabled={isPicking}
             className="group relative flex items-center justify-center gap-2 sm:gap-2.5 w-full max-w-sm sm:max-w-md py-3.5 sm:py-4 px-4 sm:px-8 bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-600 text-white font-black text-sm sm:text-lg rounded-2xl shadow-xl shadow-pink-300/60 active:scale-95 transition-all cursor-pointer disabled:opacity-50 whitespace-nowrap break-keep"
           >
             <Coins className="w-5 h-5 text-amber-300 group-hover:rotate-12 transition-transform shrink-0" />
             <span className="whitespace-nowrap break-keep tracking-tight sm:tracking-normal">
-              {isPicking ? '도로롱이 고뇌 중...' : '깡통에 코인 넣고 메뉴 점지받기!'}
+              깡통에 코인 넣고 메뉴 점지받기!
             </span>
             <Sparkles className="w-4 h-4 text-pink-200 animate-pulse shrink-0" />
           </button>

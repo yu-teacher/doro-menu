@@ -285,15 +285,38 @@ export const DoroRoulette: React.FC<DoroRouletteProps> = ({ menus }) => {
         </div>
       )}
 
-      {/* Result Card Modal or Block */}
+      {/* Dynamic Spinning Deliberation Banner while roulette is turning */}
+      {isSpinning && (
+        <div className="mt-4 flex flex-col items-center gap-2 animate-in fade-in zoom-in-95 duration-200">
+          <div className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-500 text-white font-black text-sm sm:text-base rounded-2xl shadow-xl shadow-rose-200 animate-pulse">
+            <RotateCcw className="w-5 h-5 animate-spin shrink-0" />
+            <span>
+              {spinCount >= 7
+                ? '도로롱 심한 멀미 중... 🤢'
+                : spinCount >= 4
+                ? '도로롱 눈앞이 핑핑 돈다... 💫'
+                : '운명의 룰렛 고뇌 회전 중... 🎯'}
+            </span>
+          </div>
+          <p className="text-xs sm:text-sm text-slate-500 font-bold break-keep text-center animate-pulse">
+            {spinCount >= 7
+              ? '우웩! 도로롱 토하기 직전이다 도로롱! 살려달라 도로롱!! 🤮'
+              : spinCount >= 4
+              ? '빙글빙글~ 도로롱 뇌세포까지 같이 돌고 있다 도로롱!'
+              : '룰렛이 멈출 때까지 잠시만 기다려달라 도로롱! ✨'}
+          </p>
+        </div>
+      )}
+
+      {/* Result Card: appears when spinning finishes */}
       {pickedMenu && !isSpinning && (
-        <div className="w-full mt-4 animate-in fade-in zoom-in-95 duration-300">
+        <div className="w-full mt-4 animate-in fade-in zoom-in-95 duration-500">
           <ResultCard
             menu={pickedMenu}
             onReroll={spinRoulette}
             rerollCount={spinCount}
             onResetAnger={handleResetAnger}
-            isRerolling={isSpinning}
+            mode="roulette"
           />
         </div>
       )}

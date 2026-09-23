@@ -149,15 +149,17 @@ export const DoroBoxPick: React.FC<DoroBoxPickProps> = ({ menus }) => {
           />
         </div>
       ) : (
-        <div className="mt-4 flex flex-col items-center gap-3 w-full">
+        <div className="mt-4 flex flex-col items-center gap-3 w-full px-2">
           <button
             onClick={pickRandomMenu}
             disabled={isPicking}
-            className="group relative flex items-center justify-center gap-2.5 w-full sm:w-80 py-4 px-8 bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-600 text-white font-black text-lg rounded-2xl shadow-xl shadow-pink-300/60 active:scale-95 transition-all cursor-pointer disabled:opacity-50"
+            className="group relative flex items-center justify-center gap-2 sm:gap-2.5 w-full max-w-sm sm:max-w-md py-3.5 sm:py-4 px-4 sm:px-8 bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-600 text-white font-black text-sm sm:text-lg rounded-2xl shadow-xl shadow-pink-300/60 active:scale-95 transition-all cursor-pointer disabled:opacity-50 whitespace-nowrap break-keep"
           >
-            <Coins className="w-5 h-5 text-amber-300 group-hover:rotate-12 transition-transform" />
-            <span>{isPicking ? '도로롱이 고뇌 중...' : '깡통에 코인 넣고 메뉴 점지받기!'}</span>
-            <Sparkles className="w-4 h-4 text-pink-200 animate-pulse" />
+            <Coins className="w-5 h-5 text-amber-300 group-hover:rotate-12 transition-transform shrink-0" />
+            <span className="whitespace-nowrap break-keep tracking-tight sm:tracking-normal">
+              {isPicking ? '도로롱이 고뇌 중...' : '깡통에 코인 넣고 메뉴 점지받기!'}
+            </span>
+            <Sparkles className="w-4 h-4 text-pink-200 animate-pulse shrink-0" />
           </button>
           <p className="text-xs text-slate-500 font-medium">
             현재 추천 가능한 메뉴: <strong className="text-pink-600">{activeMenus.length}가지</strong>

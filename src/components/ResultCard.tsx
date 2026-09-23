@@ -187,7 +187,7 @@ export const ResultCard: React.FC<ResultCardProps> = ({ menu, onReroll, rerollCo
         </div>
 
         {/* Action Link Buttons */}
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <span className="text-xs font-semibold text-slate-700">
             {location.district ? `"${location.district}" 근처 맛집:` : '주변 맛집 찾기:'}
           </span>
@@ -196,19 +196,19 @@ export const ResultCard: React.FC<ResultCardProps> = ({ menu, onReroll, rerollCo
               href={naverMapUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold bg-[#03C75A] text-white hover:opacity-90 shadow-2xs transition-all"
+              className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold bg-[#03C75A] text-white hover:opacity-90 shadow-2xs transition-all whitespace-nowrap"
             >
               <span>네이버 지도</span>
-              <ExternalLink className="w-3 h-3" />
+              <ExternalLink className="w-3 h-3 shrink-0" />
             </a>
             <a
               href={kakaoMapUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold bg-[#FEE500] text-slate-900 hover:opacity-90 shadow-2xs transition-all"
+              className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold bg-[#FEE500] text-slate-900 hover:opacity-90 shadow-2xs transition-all whitespace-nowrap"
             >
               <span>카카오맵</span>
-              <ExternalLink className="w-3 h-3" />
+              <ExternalLink className="w-3 h-3 shrink-0" />
             </a>
           </div>
         </div>
@@ -218,26 +218,26 @@ export const ResultCard: React.FC<ResultCardProps> = ({ menu, onReroll, rerollCo
       {isDecided ? (
         <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-center animate-bounce mt-4">
           <div className="flex items-center justify-center gap-2 text-emerald-600 font-bold text-base mb-1">
-            <CheckCircle2 className="w-5 h-5" />
-            <span>오늘의 메뉴로 결정 완료! 도로롱!</span>
+            <CheckCircle2 className="w-5 h-5 shrink-0" />
+            <span className="break-keep">오늘의 메뉴로 결정 완료! 도로롱!</span>
           </div>
-          <p className="text-xs text-emerald-700">맛있게 드시고 든든한 하루 보내세요 💖</p>
+          <p className="text-xs text-emerald-700 break-keep">맛있게 드시고 든든한 하루 보내세요 💖</p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-2.5 mt-4">
+        <div className="grid grid-cols-2 gap-2 sm:gap-2.5 mt-4">
           <button
             onClick={handleConfirm}
-            className="flex items-center justify-center gap-1.5 py-3.5 px-4 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white rounded-2xl font-bold text-sm shadow-md shadow-pink-200 active:scale-95 transition-all cursor-pointer"
+            className="flex items-center justify-center gap-1.5 py-3 sm:py-3.5 px-3 sm:px-4 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white rounded-2xl font-bold text-xs sm:text-sm shadow-md shadow-pink-200 active:scale-95 transition-all cursor-pointer whitespace-nowrap break-keep"
           >
-            <Heart className="w-4 h-4 fill-white" />
+            <Heart className="w-4 h-4 fill-white shrink-0" />
             <span>이거 먹을래!</span>
           </button>
 
           <button
             onClick={onReroll}
-            className="flex items-center justify-center gap-1.5 py-3.5 px-4 bg-white hover:bg-rose-50 border border-rose-200 text-rose-600 rounded-2xl font-bold text-sm shadow-xs active:scale-95 transition-all cursor-pointer"
+            className="flex items-center justify-center gap-1.5 py-3 sm:py-3.5 px-3 sm:px-4 bg-white hover:bg-rose-50 border border-rose-200 text-rose-600 rounded-2xl font-bold text-xs sm:text-sm shadow-xs active:scale-95 transition-all cursor-pointer whitespace-nowrap break-keep"
           >
-            <RefreshCw className={`w-4 h-4 ${rerollCount > 0 ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`w-4 h-4 shrink-0 ${rerollCount > 0 ? 'animate-spin' : ''}`} />
             <span>다시 뽑기 ({rerollCount})</span>
           </button>
         </div>

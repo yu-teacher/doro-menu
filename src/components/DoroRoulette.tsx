@@ -219,7 +219,7 @@ export const DoroRoulette: React.FC<DoroRouletteProps> = ({ menus }) => {
 
           {/* Rotating Canvas Wheel */}
           <div
-            className="w-72 h-72 sm:w-80 sm:h-80 rounded-full shadow-2xl overflow-hidden transition-transform duration-[3500ms] ease-out"
+            className="w-64 h-64 sm:w-80 sm:h-80 rounded-full shadow-2xl overflow-hidden transition-transform duration-[3500ms] ease-out"
             style={{ transform: `rotate(${rotationAngle}deg)` }}
           >
             <canvas ref={canvasRef} width={320} height={320} className="w-full h-full" />
@@ -229,16 +229,16 @@ export const DoroRoulette: React.FC<DoroRouletteProps> = ({ menus }) => {
           <button
             onClick={spinRoulette}
             disabled={isSpinning || displayMenus.length === 0}
-            className="mt-6 flex items-center justify-center gap-2 py-3.5 px-8 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-black text-base rounded-2xl shadow-lg shadow-pink-200 active:scale-95 transition-all cursor-pointer disabled:opacity-50"
+            className="mt-6 flex items-center justify-center gap-2 py-3 sm:py-3.5 px-6 sm:px-8 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-black text-sm sm:text-base rounded-2xl shadow-lg shadow-pink-200 active:scale-95 transition-all cursor-pointer disabled:opacity-50 whitespace-nowrap break-keep"
           >
             {isSpinning ? (
               <>
-                <RotateCcw className="w-5 h-5 animate-spin" />
+                <RotateCcw className="w-5 h-5 animate-spin shrink-0" />
                 <span>빙글빙글 도는 중...</span>
               </>
             ) : (
               <>
-                <Play className="w-5 h-5 fill-white" />
+                <Play className="w-5 h-5 fill-white shrink-0" />
                 <span>룰렛 돌리기!</span>
               </>
             )}

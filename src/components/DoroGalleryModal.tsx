@@ -23,30 +23,36 @@ export const DoroGalleryModal: React.FC<DoroGalleryModalProps> = ({ isOpen, onCl
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200">
       <div className="relative w-full max-w-4xl max-h-[90vh] bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-pink-100">
         {/* Modal Header */}
-        <div className="p-4 sm:p-5 border-b border-pink-100 flex items-center justify-between bg-gradient-to-r from-pink-50 to-rose-50/50">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-pink-500 text-white flex items-center justify-center shadow-xs">
-              <ImageIcon className="w-4 h-4" />
+        <div className="p-3 sm:p-5 border-b border-pink-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 bg-gradient-to-r from-pink-50 to-rose-50/50">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-pink-500 text-white flex items-center justify-center shadow-xs shrink-0">
+                <ImageIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              </div>
+              <div>
+                <h3 className="font-black text-sm sm:text-lg text-slate-900 flex items-center gap-1.5">
+                  <span>도로롱 짤 보물창고</span>
+                  <span className="text-[11px] sm:text-xs px-2 py-0.5 rounded-full bg-pink-100 text-pink-700 font-bold">
+                    {DORO_GALLERY_IMAGES.length}개
+                  </span>
+                </h3>
+              </div>
             </div>
-            <div>
-              <h3 className="font-black text-base sm:text-lg text-slate-900 flex items-center gap-1.5">
-                <span>도로롱 짤 보물창고</span>
-                <span className="text-xs px-2 py-0.5 rounded-full bg-pink-100 text-pink-700 font-bold">
-                  {DORO_GALLERY_IMAGES.length}개
-                </span>
-              </h3>
-              <p className="text-[11px] text-slate-500">
-                움직이는 짤부터 레전드 밈까지 모두 모아뒀다 도로롱!
-              </p>
-            </div>
+
+            <button
+              onClick={onClose}
+              className="sm:hidden w-7 h-7 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+            >
+              <X className="w-4 h-4" />
+            </button>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between sm:justify-end gap-2">
             {/* Filter buttons */}
-            <div className="flex bg-white/80 p-0.5 rounded-xl border border-pink-200 text-xs font-bold">
+            <div className="flex bg-white/80 p-0.5 rounded-xl border border-pink-200 text-xs font-bold w-full sm:w-auto justify-center">
               <button
                 onClick={() => setFilter('all')}
-                className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
+                className={`flex-1 sm:flex-initial px-2 sm:px-2.5 py-1 rounded-lg transition-colors cursor-pointer text-center ${
                   filter === 'all' ? 'bg-pink-500 text-white shadow-2xs' : 'text-slate-600 hover:text-pink-600'
                 }`}
               >
@@ -54,16 +60,16 @@ export const DoroGalleryModal: React.FC<DoroGalleryModalProps> = ({ isOpen, onCl
               </button>
               <button
                 onClick={() => setFilter('gif')}
-                className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer flex items-center gap-1 ${
+                className={`flex-1 sm:flex-initial px-2 sm:px-2.5 py-1 rounded-lg transition-colors cursor-pointer flex items-center justify-center gap-1 ${
                   filter === 'gif' ? 'bg-pink-500 text-white shadow-2xs' : 'text-slate-600 hover:text-pink-600'
                 }`}
               >
-                <Sparkles className="w-3 h-3 text-amber-300" />
-                <span>움직이는 GIF</span>
+                <Sparkles className="w-3 h-3 text-amber-300 shrink-0" />
+                <span>GIF</span>
               </button>
               <button
                 onClick={() => setFilter('image')}
-                className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
+                className={`flex-1 sm:flex-initial px-2 sm:px-2.5 py-1 rounded-lg transition-colors cursor-pointer text-center ${
                   filter === 'image' ? 'bg-pink-500 text-white shadow-2xs' : 'text-slate-600 hover:text-pink-600'
                 }`}
               >
@@ -73,7 +79,7 @@ export const DoroGalleryModal: React.FC<DoroGalleryModalProps> = ({ isOpen, onCl
 
             <button
               onClick={onClose}
-              className="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer ml-1"
+              className="hidden sm:flex w-8 h-8 rounded-full items-center justify-center text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer ml-1 shrink-0"
             >
               <X className="w-5 h-5" />
             </button>

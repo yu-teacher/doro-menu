@@ -51,7 +51,7 @@ export const DoroReaction: React.FC<DoroReactionProps> = ({
         title={onPoke ? '도로롱을 쿡 찔러보라 도로롱! 👉' : undefined}
       >
         <img
-          src={DORO_IMAGES[emotion] || '/doro/doro_beggar.png'}
+          src={DORO_IMAGES[emotion] || './doro/doro_beggar.png'}
           alt={`Doro ${emotion}`}
           className="w-full h-full object-contain filter drop-shadow-md rounded-2xl"
         />

@@ -25,7 +25,7 @@ export const Header: React.FC<HeaderProps> = ({
         >
           <div className="relative">
             <img
-              src="/doro/doro_logo.png"
+              src="./doro/doro_logo.png"
               alt="DORO"
               className="w-10 h-10 object-contain group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 drop-shadow-sm"
             />

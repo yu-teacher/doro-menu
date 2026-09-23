@@ -160,5 +160,5 @@ export function getMenuAvatar(menu: MenuItem): string {
     return DORO_IMAGES[menu.specialDoroEmotion];
   }
   const emotion = getEmotionForCategory(menu.category, menu.tags || []);
-  return DORO_IMAGES[emotion] || CATEGORY_DORO_AVATARS[menu.category] || '/doro/doro_eating.png';
+  return DORO_IMAGES[emotion] || CATEGORY_DORO_AVATARS[menu.category] || './doro/doro_eating.png';
 }

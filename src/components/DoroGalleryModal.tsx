@@ -85,7 +85,7 @@ export const DoroGalleryModal: React.FC<DoroGalleryModalProps> = ({ isOpen, onCl
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
             {filtered.map((filename, idx) => {
               const isGif = filename.endsWith('.gif');
-              const src = `/doro/gallery/${filename}`;
+              const src = `./doro/gallery/${filename}`;
 
               return (
                 <div

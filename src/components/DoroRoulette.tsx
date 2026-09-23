@@ -254,13 +254,15 @@ export const DoroRoulette: React.FC<DoroRouletteProps> = ({ menus }) => {
             <canvas ref={canvasRef} width={320} height={320} className="w-full h-full" />
           </div>
 
-          {/* Spin Trigger Button */}
+          {/* Single Dynamic Spin Trigger Button */}
           <button
             onClick={spinRoulette}
             disabled={isSpinning || spinCount >= 10 || displayMenus.length === 0}
-            className={`mt-6 flex items-center justify-center gap-2 py-3 sm:py-3.5 px-6 sm:px-8 font-black text-sm sm:text-base rounded-2xl shadow-lg active:scale-95 transition-all cursor-pointer disabled:opacity-50 whitespace-nowrap break-keep ${
+            className={`mt-6 flex items-center justify-center gap-2 py-3.5 sm:py-4 px-6 sm:px-8 font-black text-sm sm:text-base rounded-2xl shadow-lg active:scale-95 transition-all cursor-pointer disabled:opacity-50 whitespace-nowrap break-keep ${
               spinCount >= 10
                 ? 'bg-gradient-to-r from-red-600 to-rose-700 text-white shadow-red-200 cursor-not-allowed'
+                : isSpinning
+                ? 'bg-gradient-to-r from-rose-500 via-pink-500 to-amber-500 text-white shadow-rose-200 animate-pulse'
                 : spinCount >= 7
                 ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-orange-200 hover:from-orange-600 hover:to-red-600'
                 : spinCount >= 4
@@ -271,7 +273,13 @@ export const DoroRoulette: React.FC<DoroRouletteProps> = ({ menus }) => {
             {isSpinning ? (
               <>
                 <RotateCcw className="w-5 h-5 animate-spin shrink-0" />
-                <span>빙글빙글 도는 중...</span>
+                <span>
+                  {spinCount >= 7
+                    ? '도로롱 심한 멀미 중... 🤢'
+                    : spinCount >= 4
+                    ? '도로롱 눈앞이 핑핑 돈다... 💫'
+                    : '운명의 룰렛 고뇌 회전 중... 🎯'}
+                </span>
               </>
             ) : spinCount >= 10 ? (
               <span>도로롱 파업 중!! 싹싹 빌기 전엔 회전 불가 💥</span>
@@ -282,29 +290,17 @@ export const DoroRoulette: React.FC<DoroRouletteProps> = ({ menus }) => {
               </>
             )}
           </button>
-        </div>
-      )}
 
-      {/* Dynamic Spinning Deliberation Banner while roulette is turning */}
-      {isSpinning && (
-        <div className="mt-4 flex flex-col items-center gap-2 animate-in fade-in zoom-in-95 duration-200">
-          <div className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-500 text-white font-black text-sm sm:text-base rounded-2xl shadow-xl shadow-rose-200 animate-pulse">
-            <RotateCcw className="w-5 h-5 animate-spin shrink-0" />
-            <span>
+          {/* Context subtitle while spinning */}
+          {isSpinning && (
+            <p className="mt-2.5 text-xs sm:text-sm text-slate-500 font-bold break-keep text-center animate-pulse">
               {spinCount >= 7
-                ? '도로롱 심한 멀미 중... 🤢'
+                ? '우웩! 도로롱 토하기 직전이다 도로롱! 살려달라 도로롱!! 🤮'
                 : spinCount >= 4
-                ? '도로롱 눈앞이 핑핑 돈다... 💫'
-                : '운명의 룰렛 고뇌 회전 중... 🎯'}
-            </span>
-          </div>
-          <p className="text-xs sm:text-sm text-slate-500 font-bold break-keep text-center animate-pulse">
-            {spinCount >= 7
-              ? '우웩! 도로롱 토하기 직전이다 도로롱! 살려달라 도로롱!! 🤮'
-              : spinCount >= 4
-              ? '빙글빙글~ 도로롱 뇌세포까지 같이 돌고 있다 도로롱!'
-              : '룰렛이 멈출 때까지 잠시만 기다려달라 도로롱! ✨'}
-          </p>
+                ? '빙글빙글~ 도로롱 뇌세포까지 같이 돌고 있다 도로롱!'
+                : '룰렛이 멈출 때까지 잠시만 기다려달라 도로롱! ✨'}
+            </p>
+          )}
         </div>
       )}
 

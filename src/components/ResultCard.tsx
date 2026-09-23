@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MenuItem } from '../types/menu';
 import { CATEGORIES, getMenuAvatar, DORO_ANGER_STAGES } from '../constants/doroAssets';
 import { useUserLocation } from '../hooks/useUserLocation';
+import { getSearchKeyword } from '../utils/searchKeyword';
 import {
   Share2,
   RefreshCw,
@@ -62,10 +63,13 @@ export const ResultCard: React.FC<ResultCardProps> = ({
     }
   };
 
+  // 지도 검색용 최적화 키워드 추출 (예: '반미 바게트 샌드위치' -> '반미', '차돌 / 우렁 된장찌개' -> '된장찌개')
+  const targetFood = getSearchKeyword(menu);
+
   // 실제 내 위치(동네 또는 GPS 좌표) 기반 지도 검색 쿼리 구성
   const searchKeyword = location.district
-    ? `${location.district} ${menu.name}`
-    : menu.name;
+    ? `${location.district} ${targetFood}`
+    : targetFood;
 
   // 네이버 지도 URL (GPS 좌표가 있으면 중심 좌표 파라미터 c=lng,lat,15 부여)
   const naverMapUrl =
@@ -245,10 +249,17 @@ export const ResultCard: React.FC<ResultCardProps> = ({
 
         {/* Action Link Buttons */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2 border-t border-slate-100">
-          <span className="text-xs font-semibold text-slate-700">
-            {location.district ? `"${location.district}" 근처 맛집:` : '주변 맛집 찾기:'}
-          </span>
-          <div className="flex items-center gap-1.5">
+          <div className="flex flex-col min-w-0">
+            <span className="text-xs font-semibold text-slate-700 truncate">
+              {location.district ? `"${location.district}" 근처 맛집:` : '주변 맛집 찾기:'}
+            </span>
+            {targetFood !== menu.name && (
+              <span className="text-[10px] text-pink-600 font-medium truncate">
+                검색 키워드: &quot;{targetFood}&quot; 🔍
+              </span>
+            )}
+          </div>
+          <div className="flex items-center gap-1.5 shrink-0">
             <a
               href={naverMapUrl}
               target="_blank"

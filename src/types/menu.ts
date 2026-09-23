@@ -25,6 +25,7 @@ export interface MenuItem {
   description: string;
   doroQuote: string;
   tags?: string[];
+  searchKeyword?: string;
   isCustom?: boolean;
   enabled: boolean;
   specialDoroEmotion?: DoroEmotion;

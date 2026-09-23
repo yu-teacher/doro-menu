@@ -95,22 +95,145 @@ export const DORO_THINKING_QUOTES = [
   "음... 이건 어떨까 도로롱... 고뇌 중이다 도로롱...",
 ];
 
+export interface DoroAngerStage {
+  level: number;
+  emotion: DoroEmotion;
+  isShaking?: boolean;
+  stageName: string;
+  stageEmoji: string;
+  quotes: string[];
+}
+
+export const DORO_ANGER_STAGES: Record<number, DoroAngerStage> = {
+  1: {
+    level: 1,
+    emotion: 'tumbleweed',
+    stageName: '시무룩한 도로롱',
+    stageEmoji: '💨',
+    quotes: [
+      "으아악! 왜 안 먹겠다는 거냐 도로롱! 맛있는데 도로롱!",
+      "치... 도로롱의 정성 어린 픽을 거부하다니. 다시 한번 뽑아보겠다 도로롱.",
+      "입맛이 꽤 까다롭다 도로롱... 이번엔 마음에 들 거다 도로롱!",
+    ],
+  },
+  2: {
+    level: 2,
+    emotion: 'thinking',
+    stageName: '의아한 도로롱',
+    stageEmoji: '🤔',
+    quotes: [
+      "이것도 싫다고 도로롱? 당신의 위장 데이터베이스를 재분석해야겠다 도로롱.",
+      "도대체 어제 뭘 먹었길래 다 퇴짜냐 도로롱?!",
+      "음... 슬슬 까다로운 인간의 냄새가 난다 도로롱... 다시 골라본다 도로롱!",
+    ],
+  },
+  3: {
+    level: 3,
+    emotion: 'scream',
+    stageName: '경악한 도로롱',
+    stageEmoji: '😱',
+    quotes: [
+      "끼야아악!! 이것도 싫다고?! 내 미각 엔진에 오류가 난 거냐 도로롱!!",
+      "도로롱 심장에 스크래치 났다 도로롱! 3연속 거절이라니 도로롱!",
+      "세상에 맛있는 게 얼마나 많은데 왜 다 싫다는 거냐 도로롱!!",
+    ],
+  },
+  4: {
+    level: 4,
+    emotion: 'melt',
+    stageName: '멘붕 온 도로롱',
+    stageEmoji: '🫠',
+    quotes: [
+      "흐물흐물... 도로롱 멘탈이 바닥에 녹아내린다 도로롱...",
+      "배고파 죽겠는데 메뉴 고르다 오늘 하루 다 가겠다 도로롱...",
+      "나 기 빨린다 도로롱... 그냥 편의점 가서 컵라면이나 먹어라 도로롱...",
+    ],
+  },
+  5: {
+    level: 5,
+    emotion: 'point',
+    stageName: '삿대질하는 도로롱',
+    stageEmoji: '👉',
+    quotes: [
+      "야! 너 똑바로 말해라 도로롱! 먹고 싶은 게 있긴 한 거냐 도로롱?!",
+      "당신의 선택 장애는 기네스북 등재감이다 도로롱! 팍씨!",
+      "도로롱 깡통에 500원짜리 동전이나 더 넣고 다시 말하라 도로롱!",
+    ],
+  },
+  6: {
+    level: 6,
+    emotion: 'fat',
+    stageName: '폭식하는 뚱도로롱',
+    stageEmoji: '🐷',
+    quotes: [
+      "스트레스 받아서 도로롱이 대신 폭식해서 뚱도로롱 됐다 도로롱!!",
+      "답답해서 도로롱 숨넘어간다 도로롱! 뱃살 늘어나는 소리 안 들리냐 도로롱?!",
+      "내가 눈앞에 있는 거 다 처먹어버리기 전에 이번엔 그냥 골라라 도로롱!!",
+    ],
+  },
+  7: {
+    level: 7,
+    emotion: 'butt',
+    stageName: '엉덩이 시위 도로롱',
+    stageEmoji: '🍑',
+    quotes: [
+      "몰라 도로롱! 도로롱 엉덩이나 보고 반성하라 도로롱! 뿡뿡!",
+      "도로롱도 자존심이 있다 도로롱! 7번이나 차이다니 억울하다 도로롱!",
+      "퉤퉤! 도로롱의 황금 같은 추천을 쓰레기통에 처박다니 도로롱!",
+    ],
+  },
+  8: {
+    level: 8,
+    emotion: 'fire_coding',
+    stageName: '두뇌 과부하 도로롱',
+    stageEmoji: '🔥',
+    quotes: [
+      "으아아아악!! 도로롱 두뇌 과부하 걸렸다 도로롱!! 🔥🔥",
+      "내 분노의 폭풍 키보드 연타를 봐라 도로롱! 쾅쾅쾅쾅쾅!!",
+      "인간의 선택 장애를 강제 포맷하는 바이러스를 심어버리겠다 도로롱!!",
+    ],
+  },
+  9: {
+    level: 9,
+    emotion: 'angry',
+    isShaking: true,
+    stageName: '폭발 직전 도로롱',
+    stageEmoji: '💢',
+    quotes: [
+      "도로롱 인내심 한계 게이지 99%다 도로롱... 💢💢 부들부들...",
+      "한 번만 더 거절하면 진짜 깡통 엎어버리고 파업한다 도로롱... 💥",
+      "마지막 경고다 도로롱... 다음엔 도로롱도 절대 안 참는다 도로롱... 😡",
+    ],
+  },
+  10: {
+    level: 10,
+    emotion: 'angry',
+    isShaking: true,
+    stageName: '파업 돌입 도로롱 (배 째라)',
+    stageEmoji: '💥',
+    quotes: [
+      "안 해 도로롱! 도로롱 파업이다 도로롱!! 💢💥 골라줘도 난리더니 10번이나 차버려?! 그냥 아무거나 처먹으라 도로롱!! 😡",
+      "도로롱은 이제 아무것도 안 정해줄 거다 도로롱! 냉장고 열어서 김치에 찬물 말아 쳐먹으라 도로롱!! 🍚",
+      "도로롱 퇴근한다 도로롱! 굶든지 아무거나 주워 먹든지 알아서 하라 도로롱!! 🚪🏃💨",
+    ],
+  },
+};
+
+export const STRIKE_MENU: MenuItem = {
+  id: 'doro_strike',
+  name: '그냥 아무거나 처먹기 (도로롱 파업)',
+  category: 'snack',
+  description: '도로롱의 정성 어린 메뉴 추천을 10번이나 연속으로 걷어찬 자에게 내려진 최후의 형벌. 군소리 말고 눈앞에 보이는 걸 처먹으세요.',
+  doroQuote: '더 이상은 못 참는다 도로롱! 냉장고 파먹기를 하든 편의점 삼각김밥을 씹든 그냥 아무거나 쳐먹으라 도로롱!! 😡💥',
+  tags: ['도로롱파업', '강제배정', '처먹으라도로롱', '선택불가'],
+  enabled: true,
+  specialDoroEmotion: 'angry',
+};
+
 export const DORO_REJECT_QUOTES = [
-  [
-    "으아악! 왜 안 먹겠다는 거냐 도로롱! 맛있는데 도로롱!",
-    "치... 도로롱의 픽을 거부하다니 간이 배 밖으로 나왔다 도로롱.",
-    "다시 뽑아보겠다 도로롱! 이번엔 먹어야 한다 도로롱.",
-  ],
-  [
-    "또 싫다고?! 이 까다로운 혓바닥을 어쩌면 좋냐 도로롱!",
-    "도로롱의 정성을 무시하지 마라 도로롱! (부들부들)",
-    "도대체 먹고 싶은 게 뭐냐 도로롱! 절규가 절로 나온다 도로롱!",
-  ],
-  [
-    "골라줘도 난리냐 도로롱! 그냥 아무거나 처먹으라 도로롱!! 💢",
-    "도로롱 파업이다 도로롱! 깡통 엎어버리기 전에 닥치고 먹으라 도로롱! 💥",
-    "더 이상은 못 참는다 도로롱! 이럴 거면 편의점 삼각김밥이나 씹으라 도로롱! 😡",
-  ],
+  DORO_ANGER_STAGES[1].quotes,
+  DORO_ANGER_STAGES[2].quotes,
+  DORO_ANGER_STAGES[3].quotes,
 ];
 
 export function getEmotionForCategory(category: Category, tags: string[] = []): DoroEmotion {

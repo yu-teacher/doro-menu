@@ -5,9 +5,10 @@ import { ResultCard } from './ResultCard';
 import {
   DORO_IDLE_QUOTES,
   DORO_THINKING_QUOTES,
-  DORO_REJECT_QUOTES,
   DORO_IDLE_POOL,
   DORO_POKE_REACTIONS,
+  DORO_ANGER_STAGES,
+  STRIKE_MENU,
   getEmotionForCategory,
 } from '../constants/doroAssets';
 import { Sparkles, Coins } from 'lucide-react';
@@ -81,30 +82,40 @@ export const DoroBoxPick: React.FC<DoroBoxPickProps> = ({ menus }) => {
     const nextCount = rerollCount + 1;
     setRerollCount(nextCount);
 
-    // 거절 횟수에 따른 도로롱 반응
-    let rejectEmotion: DoroEmotion = 'tumbleweed';
-    let quoteList = DORO_REJECT_QUOTES[0];
-
-    if (nextCount === 1) {
-      rejectEmotion = 'tumbleweed';
-      quoteList = DORO_REJECT_QUOTES[0];
-    } else if (nextCount === 2) {
-      rejectEmotion = 'scream';
-      quoteList = DORO_REJECT_QUOTES[1];
-    } else {
-      rejectEmotion = 'angry';
-      quoteList = DORO_REJECT_QUOTES[2];
+    if (nextCount >= 10) {
+      // 10단계 도달: 파업 선언! "그냥 아무거나 처먹으라 도로롱!"
       setIsAngryShaking(true);
+      setEmotion('angry');
+      const stage10 = DORO_ANGER_STAGES[10];
+      const randomRejectQuote = stage10.quotes[Math.floor(Math.random() * stage10.quotes.length)];
+      setQuote(randomRejectQuote);
+      setSelectedMenu(STRIKE_MENU);
+      return;
     }
 
-    const randomRejectQuote = quoteList[Math.floor(Math.random() * quoteList.length)];
-    setEmotion(rejectEmotion);
+    // 1-9단계 감정 및 찰진 분노 대사 부여
+    const stage = DORO_ANGER_STAGES[nextCount] || DORO_ANGER_STAGES[9];
+    setIsAngryShaking(Boolean(stage.isShaking));
+    setEmotion(stage.emotion);
+    const randomRejectQuote = stage.quotes[Math.floor(Math.random() * stage.quotes.length)];
     setQuote(randomRejectQuote);
 
-    // 약간의 딜레이 후 다시 추첨
+    // 약간의 딜레이 후 새로운 메뉴로 교체 (상단 도로롱은 분노 상태 유지!)
+    setTimeout(() => {
+      const randomIndex = Math.floor(Math.random() * activeMenus.length);
+      const picked = activeMenus[randomIndex];
+      setSelectedMenu(picked);
+    }, 700);
+  };
+
+  const handleResetAnger = () => {
+    setRerollCount(0);
+    setIsAngryShaking(false);
+    setEmotion('dance_happy');
+    setQuote("흥... 깡통에 코인 넣고 진심으로 싹싹 비니까 이번 한 번만 봐준다 도로롱! 다시 골라줄 테니 앞으론 군말 말고 먹어라 도로롱! ✨");
     setTimeout(() => {
       pickRandomMenu();
-    }, 900);
+    }, 1200);
   };
 
   if (activeMenus.length === 0) {
@@ -146,6 +157,7 @@ export const DoroBoxPick: React.FC<DoroBoxPickProps> = ({ menus }) => {
             menu={selectedMenu}
             onReroll={handleReroll}
             rerollCount={rerollCount}
+            onResetAnger={handleResetAnger}
           />
         </div>
       ) : (

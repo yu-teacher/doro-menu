@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { MenuItem } from '../types/menu';
-import { CATEGORIES, getMenuAvatar } from '../constants/doroAssets';
+import { CATEGORIES, getMenuAvatar, DORO_ANGER_STAGES } from '../constants/doroAssets';
 import { useUserLocation } from '../hooks/useUserLocation';
 import {
   Share2,
@@ -19,9 +19,10 @@ interface ResultCardProps {
   menu: MenuItem;
   onReroll: () => void;
   rerollCount: number;
+  onResetAnger?: () => void;
 }
 
-export const ResultCard: React.FC<ResultCardProps> = ({ menu, onReroll, rerollCount }) => {
+export const ResultCard: React.FC<ResultCardProps> = ({ menu, onReroll, rerollCount, onResetAnger }) => {
   const [copied, setCopied] = useState(false);
   const [isDecided, setIsDecided] = useState(false);
   const [isEditingDistrict, setIsEditingDistrict] = useState(false);
@@ -214,14 +215,71 @@ export const ResultCard: React.FC<ResultCardProps> = ({ menu, onReroll, rerollCo
         </div>
       </div>
 
+      {/* Doro Anger Gauge Bar (1-10 Stages) */}
+      {rerollCount > 0 && (
+        <div className={`mt-4 p-3.5 rounded-2xl border transition-all ${
+          rerollCount >= 10
+            ? 'bg-red-50/90 border-red-300 shadow-md shadow-red-100 animate-pulse'
+            : rerollCount >= 7
+            ? 'bg-orange-50/90 border-orange-200 shadow-xs'
+            : 'bg-amber-50/80 border-amber-200'
+        }`}>
+          <div className="flex items-center justify-between text-xs mb-1.5 font-bold">
+            <span className="flex items-center gap-1.5 text-slate-800">
+              <span>도로롱 분노 게이지</span>
+              <span className={`px-2 py-0.5 rounded-full text-[10px] text-white font-extrabold ${
+                rerollCount >= 10
+                  ? 'bg-red-600 animate-bounce'
+                  : rerollCount >= 7
+                  ? 'bg-orange-500'
+                  : 'bg-amber-500'
+              }`}>
+                Lv.{Math.min(rerollCount, 10)} {rerollCount >= 10 ? 'MAX (파업)' : `(${DORO_ANGER_STAGES[rerollCount]?.stageName})`}
+              </span>
+            </span>
+            <span className={`text-[11px] font-extrabold ${rerollCount >= 10 ? 'text-red-600' : 'text-amber-800'}`}>
+              {rerollCount >= 10 ? '💥 파업 선언!' : `${10 - rerollCount}단계 남음`}
+            </span>
+          </div>
+
+          {/* Progress Bar */}
+          <div className="w-full bg-slate-200/80 rounded-full h-2.5 overflow-hidden">
+            <div
+              className={`h-full transition-all duration-500 rounded-full ${
+                rerollCount >= 10
+                  ? 'bg-gradient-to-r from-red-500 via-rose-600 to-red-700 animate-pulse'
+                  : rerollCount >= 7
+                  ? 'bg-gradient-to-r from-amber-400 via-orange-500 to-red-500'
+                  : 'bg-gradient-to-r from-yellow-300 via-amber-400 to-amber-500'
+              }`}
+              style={{ width: `${Math.min(rerollCount * 10, 100)}%` }}
+            />
+          </div>
+
+          {rerollCount >= 10 && (
+            <p className="text-[11px] text-red-600 font-bold mt-2 text-center animate-pulse">
+              ⚠️ 도로롱이 10번 연속 거절당해 파업에 돌입했습니다! 새 메뉴를 정해주지 않습니다!
+            </p>
+          )}
+        </div>
+      )}
+
       {/* Decided Banner or Action Buttons */}
       {isDecided ? (
         <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-center animate-bounce mt-4">
           <div className="flex items-center justify-center gap-2 text-emerald-600 font-bold text-base mb-1">
             <CheckCircle2 className="w-5 h-5 shrink-0" />
-            <span className="break-keep">오늘의 메뉴로 결정 완료! 도로롱!</span>
+            <span className="break-keep">
+              {rerollCount >= 10
+                ? '결국 아무거나 처먹기로 타협 완료! 도로롱!'
+                : '오늘의 메뉴로 결정 완료! 도로롱!'}
+            </span>
           </div>
-          <p className="text-xs text-emerald-700 break-keep">맛있게 드시고 든든한 하루 보내세요 💖</p>
+          <p className="text-xs text-emerald-700 break-keep">
+            {rerollCount >= 10
+              ? '진작에 아무거나 처먹을 것이지 도로롱! 맛있게 먹고 다음엔 속 썩이지 마라 도로롱! ✨'
+              : '맛있게 드시고 든든한 하루 보내세요 💖'}
+          </p>
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-2 sm:gap-2.5 mt-4">
@@ -230,16 +288,29 @@ export const ResultCard: React.FC<ResultCardProps> = ({ menu, onReroll, rerollCo
             className="flex items-center justify-center gap-1.5 py-3 sm:py-3.5 px-3 sm:px-4 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white rounded-2xl font-bold text-xs sm:text-sm shadow-md shadow-pink-200 active:scale-95 transition-all cursor-pointer whitespace-nowrap break-keep"
           >
             <Heart className="w-4 h-4 fill-white shrink-0" />
-            <span>이거 먹을래!</span>
+            <span>{rerollCount >= 10 ? '알았어 이거 먹을게...' : '이거 먹을래!'}</span>
           </button>
 
-          <button
-            onClick={onReroll}
-            className="flex items-center justify-center gap-1.5 py-3 sm:py-3.5 px-3 sm:px-4 bg-white hover:bg-rose-50 border border-rose-200 text-rose-600 rounded-2xl font-bold text-xs sm:text-sm shadow-xs active:scale-95 transition-all cursor-pointer whitespace-nowrap break-keep"
-          >
-            <RefreshCw className={`w-4 h-4 shrink-0 ${rerollCount > 0 ? 'animate-spin' : ''}`} />
-            <span>다시 뽑기 ({rerollCount})</span>
-          </button>
+          {rerollCount >= 10 ? (
+            <button
+              onClick={onResetAnger}
+              className="flex items-center justify-center gap-1.5 py-3 sm:py-3.5 px-2 sm:px-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white rounded-2xl font-bold text-xs sm:text-sm shadow-md shadow-orange-200 active:scale-95 transition-all cursor-pointer whitespace-nowrap break-keep"
+            >
+              <span>도로롱 싹싹 빌기 (사죄) 🙇</span>
+            </button>
+          ) : (
+            <button
+              onClick={onReroll}
+              className={`flex items-center justify-center gap-1 sm:gap-1.5 py-3 sm:py-3.5 px-3 sm:px-4 bg-white hover:bg-rose-50 border rounded-2xl font-bold text-xs sm:text-sm shadow-xs active:scale-95 transition-all cursor-pointer whitespace-nowrap break-keep ${
+                rerollCount >= 7
+                  ? 'border-red-300 text-red-600 hover:bg-red-50'
+                  : 'border-rose-200 text-rose-600'
+              }`}
+            >
+              <RefreshCw className={`w-4 h-4 shrink-0 ${rerollCount > 0 ? 'animate-spin' : ''}`} />
+              <span>다시 뽑기 (Lv.{rerollCount})</span>
+            </button>
+          )}
         </div>
       )}
 

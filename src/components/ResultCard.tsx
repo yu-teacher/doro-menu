@@ -12,6 +12,7 @@ import {
   LocateFixed,
   Edit2,
   Check,
+  Sparkles,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -85,7 +86,42 @@ export const ResultCard: React.FC<ResultCardProps> = ({
 
   return (
     <div className="w-full max-w-md mx-auto glass-panel rounded-3xl p-6 sm:p-7 shadow-xl border-2 border-pink-200/80 transition-all duration-300">
-      {/* Category Badge & Tags */}
+      {isRerolling ? (
+        /* Shuffling Mystery Box during deliberation */
+        <div className="py-6 sm:py-8 px-2 flex flex-col items-center justify-center min-h-[380px] sm:min-h-[420px] text-center animate-in fade-in zoom-in-95 duration-200">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-pink-100 text-pink-700 mb-6 shadow-2xs">
+            <Sparkles className="w-3.5 h-3.5 text-pink-500 animate-spin" />
+            <span>미식 알고리즘 재탐색 중</span>
+          </div>
+
+          <div className="relative my-2">
+            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-gradient-to-tr from-pink-400 via-rose-400 to-amber-300 p-1 shadow-xl shadow-pink-200/80 flex items-center justify-center animate-pulse">
+              <div className="w-full h-full bg-white/95 rounded-[22px] flex items-center justify-center flex-col gap-1 relative overflow-hidden">
+                <span className="text-4xl sm:text-5xl animate-bounce">📦</span>
+                <span className="text-[10px] font-black text-pink-600 tracking-wider">DORO BOX</span>
+              </div>
+            </div>
+            <span className="absolute -top-2 -right-2 text-2xl animate-spin">✨</span>
+            <span className="absolute -bottom-1 -left-2 text-2xl animate-ping">❓</span>
+          </div>
+
+          <h3 className="text-xl sm:text-2xl font-black text-slate-800 tracking-tight mt-5 flex items-center justify-center gap-2">
+            <span>메뉴 깡통 뒤적거리는 중...</span>
+          </h3>
+          <p className="text-xs sm:text-sm text-slate-500 mt-2 font-medium break-keep max-w-xs mx-auto">
+            이전 추천은 깡통에 털어 넣고, 도로롱이 뇌세포를 풀가동하여 새로운 메뉴를 점지하는 중입니다!
+          </p>
+
+          <div className="mt-6 w-full max-w-sm p-3 bg-amber-50/90 border border-amber-200/80 rounded-2xl flex items-center gap-2.5 text-left">
+            <span className="text-lg shrink-0">🤔</span>
+            <p className="text-xs text-amber-900 font-bold leading-relaxed break-keep">
+              "{DORO_ANGER_STAGES[rerollCount]?.thinkingQuotes?.[0] || '도로롱의 3000년 미식 데이터를 재가동한다 도로롱...'}"
+            </p>
+          </div>
+        </div>
+      ) : (
+        <div className="animate-in fade-in zoom-in-95 duration-300">
+          {/* Category Badge & Tags */}
       <div className="flex items-center justify-between gap-2 mb-3">
         <span
           className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold ${
@@ -270,8 +306,10 @@ export const ResultCard: React.FC<ResultCardProps> = ({
           </div>
         </div>
       </div>
+    </div>
+  )}
 
-      {/* Doro Anger Gauge Bar (1-10 Stages) */}
+  {/* Doro Anger Gauge Bar (1-10 Stages) */}
       {rerollCount > 0 && (
         <div className={`mt-4 p-3.5 rounded-2xl border transition-all ${
           rerollCount >= 10

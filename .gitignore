@@ -14,3 +14,6 @@ dist-ssr
 
 # 빌드 산출물
 *.tsbuildinfo
+
+# 비공개 메모
+.private/

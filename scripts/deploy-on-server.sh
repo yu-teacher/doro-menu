@@ -43,12 +43,18 @@ fi
 log "== 이미지 빌드 (컨테이너는 아직 건드리지 않는다) =="
 docker build -t "$IMAGE:$REV" -t "$IMAGE:latest" .
 
+# 서비스 워커가 미리 캐시하는 주소가 게이트웨이에서 이동 없이 나가는지 컨테이너를 바꾸기 전에 점검한다(scripts/check-sw-precache.sh, Doro 저장소와 같은 파일).
+SW_PREFIX="${MENU_PUBLIC_PREFIX:-/menu/}"
+log "== 서비스 워커 미리 캐시 점검(배포 전) =="
+scripts/check-sw-precache.sh "image:$IMAGE:$REV" "$SW_PREFIX" pre || { log "ERROR: 서비스 워커 미리 캐시 주소가 게이트웨이에서 올바르게 나가지 않는다. 배포하지 않는다"; exit 1; }
+
 log "== 컨테이너 교체 =="
 docker rm -f "$NAME" >/dev/null 2>&1 || true
 run_container "$IMAGE:$REV"
 
 if healthy; then
   log "배포 완료: $IMAGE:$REV (헬스체크 통과)"
+  scripts/check-sw-precache.sh "image:$IMAGE:$REV" "$SW_PREFIX" post || { log "ERROR: 배포는 됐지만 서비스 워커 미리 캐시 주소가 올바르지 않다. 설치된 앱에 잘못된 화면이 저장될 수 있어 수동 확인 필요"; exit 1; }
   # 오래된 롤백 이미지는 최근 5개만 남긴다
   docker images "$IMAGE-rollback" --format '{{.Tag}}' | sort -r | tail -n +6 | while read -r tag; do docker rmi "$IMAGE-rollback:$tag" >/dev/null 2>&1 || true; done
   exit 0

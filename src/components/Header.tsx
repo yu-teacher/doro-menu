@@ -1,6 +1,6 @@
 import React from 'react';
 import { ActiveTab } from '../types/menu';
-import { Sparkles, CircleDot, BookOpen, Image as ImageIcon } from 'lucide-react';
+import { Sparkles, CircleDot, BookOpen, Image as ImageIcon, House } from 'lucide-react';
 
 interface HeaderProps {
   activeTab: ActiveTab;
@@ -18,6 +18,16 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-pink-100 shadow-xs">
       <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+        {/* 허브(/)로 돌아가기 */}
+        <a
+          href="/"
+          className="mr-1 p-1.5 rounded-lg text-slate-500 hover:text-pink-600 hover:bg-pink-50 transition-colors shrink-0"
+          aria-label="도로 홈으로"
+          title="도로 홈으로"
+        >
+          <House className="w-5 h-5" />
+        </a>
+
         {/* Logo & Brand */}
         <div 
           onClick={() => onTabChange('box')} 

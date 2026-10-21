@@ -1,5 +1,6 @@
 import React from 'react';
 import { ActiveTab } from '../types/menu';
+import ServiceLauncher from './ServiceLauncher';
 import { Sparkles, CircleDot, BookOpen, Image as ImageIcon, House } from 'lucide-react';
 
 interface HeaderProps {
@@ -44,7 +45,7 @@ export const Header: React.FC<HeaderProps> = ({
               <span className="relative inline-flex rounded-full h-full w-full bg-pink-500"></span>
             </span>
           </div>
-          <div>
+          <div className="max-[400px]:hidden">
             <div className="flex items-center gap-1">
               <h1 className="font-black text-lg sm:text-xl tracking-tight text-slate-800 whitespace-nowrap">
                 도로<span className="text-pink-500">메뉴</span>
@@ -57,7 +58,8 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
 
-        {/* Tab Navigation & Gallery Button */}
+        {/* Tab Navigation & Gallery Button + 서비스 목록(목록 창은 이 relative 묶음의 오른쪽 끝에 맞춘다) */}
+        <div className="relative flex items-center gap-1 shrink-0">
         <nav className="flex items-center gap-1 sm:gap-1.5 shrink-0">
           <button
             onClick={() => onTabChange('box')}
@@ -69,7 +71,7 @@ export const Header: React.FC<HeaderProps> = ({
           >
             <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
             <span className="sm:inline hidden">깡통 뽑기</span>
-            <span className="inline sm:hidden">뽑기</span>
+            <span className="sr-only sm:hidden">뽑기</span>
           </button>
 
           <button
@@ -82,7 +84,7 @@ export const Header: React.FC<HeaderProps> = ({
           >
             <CircleDot className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
             <span className="sm:inline hidden">돌려돌려 룰렛</span>
-            <span className="inline sm:hidden">룰렛</span>
+            <span className="sr-only sm:hidden">룰렛</span>
           </button>
 
           <button
@@ -95,7 +97,7 @@ export const Header: React.FC<HeaderProps> = ({
           >
             <BookOpen className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
             <span className="sm:inline hidden">메뉴 수첩</span>
-            <span className="inline sm:hidden">수첩</span>
+            <span className="sr-only sm:hidden">수첩</span>
             <span className="text-[10px] sm:text-[11px] px-1 sm:px-1.5 py-0.2 rounded-full bg-pink-100 text-pink-600 font-semibold shrink-0">
               {activeMenuCount}
             </span>
@@ -108,9 +110,11 @@ export const Header: React.FC<HeaderProps> = ({
           >
             <ImageIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-pink-500 shrink-0" />
             <span className="sm:inline hidden">짤창고 (55)</span>
-            <span className="inline sm:hidden">짤</span>
+            <span className="sr-only sm:hidden">짤</span>
           </button>
         </nav>
+        <ServiceLauncher currentId="menu" />
+        </div>
       </div>
     </header>
   );
